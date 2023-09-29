@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "CommonJS",
+		"rootDir": ".",
+		"baseUrl": ".",
+		"moduleResolution": "node",
+		"typeRoots": ["node_modules/@types", "types"],
+		"paths": {
+			"@/*": ["src/*"],
+			"~/*": ["./*"]
+		},
+		"sourceMap": false,
+		"outDir": "./build",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"lib": ["ESNext"],
+		"resolveJsonModule": true
+	},
+	"exclude": ["node_modules", ".vscode", "build"],
+	"ts-node": {
+		"files": true
+	}
+}

@@ -1,0 +1,13 @@
+{
+	"exec": "ts-node -r dotenv/config -r tsconfig-paths/register src/main.ts",
+	"watch": [
+		"src/**/*.ts",
+		"tsconfig.json"
+	],
+	"ext": "ts",
+	"delay": 2500,
+	"env": {
+		"NODE_ENV": "development"
+	},
+	"verbose": false
+}
