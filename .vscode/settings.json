@@ -1,3 +1,11 @@
 {
-	"ansible.python.interpreterPath": "/bin/python3"
+	"ansible.python.interpreterPath": "/bin/python3",
+	"sqltools.connections": [
+		{
+			"previewLimit": 50,
+			"driver": "SQLite",
+			"name": "localhost",
+			"database": "db.sqlite3"
+		}
+	]
 }

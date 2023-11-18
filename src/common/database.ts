@@ -8,7 +8,7 @@ import path from 'node:path';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const models: Record<string, any> = {};
 
-const modelsDir = path.join(__dirname, '../', 'models');
+const modelsDir = path.join(__dirname, '../', 'database', 'models');
 
 const sequelize = new Sequelize({
 	dialect: 'sqlite',

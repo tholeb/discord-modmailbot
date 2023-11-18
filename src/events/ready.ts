@@ -1,8 +1,8 @@
-import { ActivityType, type BaseApplicationCommandData, Events, REST, Routes } from 'discord.js';
+import { type BaseApplicationCommandData, Events, REST, Routes } from 'discord.js';
 
 import { type Event } from '@/common/Client';
 
-const event: Event = {
+const event: Event<null> = {
 	name: Events.ClientReady,
 	once: true,
 	async execute(client) {
@@ -38,6 +38,8 @@ const event: Event = {
 				client.logger.error(error);
 			}
 		});
+
+		client.inbox = await client.guilds.fetch(process.env.DISCORD_INBOX_SERVER);
 	},
 };
 

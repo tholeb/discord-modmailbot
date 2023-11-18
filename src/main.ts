@@ -13,7 +13,7 @@ async function main() {
 	try {
 		client.logger.database('Initializing database');
 		await sequelize.authenticate();
-		await sequelize.sync({ force: true });
+		await sequelize.sync();
 
 		client.logger.database('Database connection has been established successfully.');
 	}
@@ -103,3 +103,5 @@ process.on('unhandledRejection', error => {
 });
 
 client.login(process.env.DISCORD_CLIENT_SECRET);
+
+export default client;

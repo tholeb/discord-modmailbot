@@ -1,16 +1,18 @@
-import { Collection, Client as DiscordClient, GatewayIntentBits, type ChatInputApplicationCommandData, type Interaction, type ChatInputCommandInteraction, type AutocompleteInteraction, type UserApplicationCommandData, type ModalSubmitInteraction, type ClientEvents, type UserContextMenuCommandInteraction, type MessageContextMenuCommandInteraction, type MessageApplicationCommandData } from 'discord.js';
+import { Collection, Client as DiscordClient, GatewayIntentBits, type ChatInputApplicationCommandData, type ChatInputCommandInteraction, type AutocompleteInteraction, type UserApplicationCommandData, type ModalSubmitInteraction, type ClientEvents, type UserContextMenuCommandInteraction, type MessageContextMenuCommandInteraction, type MessageApplicationCommandData, Partials, Guild } from 'discord.js';
 
 import logger from '@/utils/logger';
 
 export default class Client<Ready extends boolean = boolean> extends DiscordClient<Ready> {
 	public readonly commands: Collection<string, ChatInputCommand>;
-	public readonly events: Collection<string, Event>;
+	public readonly events: Collection<string, Event<unknown>>;
 	public readonly modals: Collection<string, Modal>;
 	public readonly contextMenus: Collection<string, ContextMenuUserCommand | ContextMenuMessageCommand>;
 	public readonly logger;
+	public readonly config;
+	public inbox: Guild | null;
 
 	constructor() {
-		super({ intents: [GatewayIntentBits.Guilds] });
+		super({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.DirectMessages, GatewayIntentBits.GuildMessages], partials: [Partials.Channel] });
 
 		this.commands = new Collection();
 		this.events = new Collection();
@@ -18,6 +20,14 @@ export default class Client<Ready extends boolean = boolean> extends DiscordClie
 		this.contextMenus = new Collection();
 
 		this.logger = logger;
+
+		this.config = {
+			embedcolor: '#FFFF00',
+			errorembedcolor: '#FF0000',
+			newticketcategory: '#FF0000',
+		};
+
+		this.inbox = null;
 	}
 }
 
@@ -40,10 +50,10 @@ export interface ContextMenuMessageCommand {
 	execute: (client: Client<true>, interaction: MessageContextMenuCommandInteraction) => Promise<void>
 }
 
-export interface Event {
+export interface Event<T> {
 	name: keyof ClientEvents
 	once: boolean
-	execute: (client: Client<true>, interaction: Interaction) => Promise<void>
+	execute: (client: Client<true>, interaction: T) => Promise<void>
 }
 
 export interface Modal {

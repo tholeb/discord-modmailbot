@@ -1,15 +1,11 @@
-import { Events, InteractionType } from 'discord.js';
+import { Events, InteractionType, Interaction } from 'discord.js';
 import { Event } from '@/common/Client';
-import path from 'node:path';
-import fs from 'node:fs';
-
-const foldersPath = path.join(__dirname, '..', 'modals');
 
 export default {
 	name: Events.InteractionCreate,
 	once: false,
 	async execute(client, interaction) {
-		const childLogger = client.logger.child({ type: InteractionType[interaction.type], user: interaction.user });
+		const childLogger = client.logger.child({ name: `Interaction received : ${InteractionType[interaction.type]} by ${interaction.user.username}`, type: InteractionType[interaction.type], user: interaction.user });
 
 		if (interaction.isChatInputCommand()) {
 			childLogger.info({ name: interaction.commandName, options: interaction.options }, 'Command executed');
@@ -57,7 +53,7 @@ export default {
 			const command = client.commands.get(interaction.commandName);
 
 			if (!command || !command.autocomplete) {
-				client.logger.error(`No command matching ${interaction.commandName} was found.`);
+				client.logger.error(`No autocomplete for ${interaction.commandName} was found.`);
 				return;
 			}
 
@@ -87,4 +83,4 @@ export default {
 
 		return;
 	},
-} satisfies Event;
+} satisfies Event<Interaction>;
